@@ -422,7 +422,7 @@ class dirlist extends sql_dirlist {
     
    		if (($handle = opendir($path))) {
 			while (false !== ($file = readdir($handle))) {
-				if ($file != '.' && $file != '..' ) {
+				if ($file[0] != '.' && $file != '..' ) {
 					$file = $path . $file ;
           		
           			if (!is_dir($file)) {
@@ -462,7 +462,7 @@ class dirlist extends sql_dirlist {
 	function getMediaDirectories() {
 		$path=LEPTON_PATH.MEDIA_DIRECTORY;
 		$dl = $this->searchdir($path, -1, "DIRS");
-		die(print_r($dl));
+		
 		// perhaps windows...
 		$dl = str_replace("\\", "/", $dl);
 		for ($i=0; $i < count($dl); $i++) {
