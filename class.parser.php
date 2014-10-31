@@ -39,9 +39,13 @@ else
 
 class templateParser
 {
-	 var $data = array();
-   var $html = "";
+	public $data = array();
+	public $html = "";
 
+	public function __construct() {
+		$this->html = "";
+	}
+	
 	 /**
 	 * Initializes "macro=>value" array
 	 * @param Array "macro=>value" array
@@ -51,7 +55,7 @@ class templateParser
    {
       $this->data = array();
       $this->data = $data;
-      if ($resetHTML) unset($this->html);
+      if ($resetHTML) $this->html = ""; # unset($this->html);
    }
 
    /**
@@ -140,17 +144,17 @@ class templateParser
    */
   function clear($resetHTML=false) {
   	$this->data = array();
-    if ($resetHTML) unset($this->html);
+    if ($resetHTML) $this->html="";
   }
 
   function echoHTML($resetHTML=true) {
   	echo $this->html;
-    if ($resetHTML) unset($this->html);
+    if ($resetHTML) $this->html="";
   }
 
   function getHTML($resetHTML=true) {
    	$result = $this->html;
-    if ($resetHTML) unset($this->html);
+    if ($resetHTML) $this->html = "";
     return $result;
   }
 
