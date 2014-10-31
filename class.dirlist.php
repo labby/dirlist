@@ -1,33 +1,39 @@
 <?php
 
 /**
- * DirList
+ *  @module         DirList
+ *  @version        see info.php of this module
+ *  @authors        Ralf Hertsch (&#x271D;), cms-lab
+ * 	@copyright		2007 - 2012 Ralf Hertsch (&#x271D;)
+ *  @copyright      2013-2014 cms-lab 
+ *  @license        MIT License (MIT) http://www.opensource.org/licenses/MIT
+ *  @license terms  see info.php of this module
  *
- * @author Ralf Hertsch <ralf.hertsch@phpmanufaktur.de>
- * @link http://phpmanufaktur.de
- * @copyright 2007 - 2012
- * @license MIT License (MIT) http://www.opensource.org/licenses/MIT
  */
 
 // include class.secure.php to protect this file and the whole CMS!
-if (defined('WB_PATH')) {
-  if (defined('LEPTON_VERSION'))
-    include(WB_PATH.'/framework/class.secure.php');
-}
-else {
-  $oneback = "../";
-  $root = $oneback;
-  $level = 1;
-  while (($level < 10) && (!file_exists($root.'/framework/class.secure.php'))) {
-    $root .= $oneback;
-    $level += 1;
-  }
-  if (file_exists($root.'/framework/class.secure.php')) {
-    include($root.'/framework/class.secure.php');
-  }
-  else {
-    trigger_error(sprintf("[ <b>%s</b> ] Can't include class.secure.php!", $_SERVER['SCRIPT_NAME']), E_USER_ERROR);
-  }
+if ( defined( 'LEPTON_PATH' ) )
+{
+	include( LEPTON_PATH . '/framework/class.secure.php' );
+} //defined( 'LEPTON_PATH' )
+else
+{
+	$oneback = "../";
+	$root    = $oneback;
+	$level   = 1;
+	while ( ( $level < 10 ) && ( !file_exists( $root . '/framework/class.secure.php' ) ) )
+	{
+		$root .= $oneback;
+		$level += 1;
+	} //( $level < 10 ) && ( !file_exists( $root . '/framework/class.secure.php' ) )
+	if ( file_exists( $root . '/framework/class.secure.php' ) )
+	{
+		include( $root . '/framework/class.secure.php' );
+	} //file_exists( $root . '/framework/class.secure.php' )
+	else
+	{
+		trigger_error( sprintf( "[ <b>%s</b> ] Can't include class.secure.php!", $_SERVER[ 'SCRIPT_NAME' ] ), E_USER_ERROR );
+	}
 }
 // end include class.secure.php
 
@@ -271,7 +277,7 @@ class dirlist extends sql_dirlist {
     	$this->print_error(); }
     else {
       $settings = $this->sql_getWBSettings();
-    	$this->pageLink = WB_URL.$settings['pages_directory'].$this->pageLink.$settings['page_extension'];  }
+    	$this->pageLink = LEPTON_URL.$settings['pages_directory'].$this->pageLink.$settings['page_extension'];  }
   }
 
   function sql_getWBSettings() {
@@ -318,8 +324,8 @@ class dirlist extends sql_dirlist {
     elseif ($sql_result->numRows() > 0) {
       // alles OK, Daten uebernehmen
       $thisArr = $sql_result->fetchRow();
-      //if (is_file(WB_PATH.'/pages'.$thisArr['link'].'.php')) {
-      if (is_file(WB_PATH.$settings['pages_directory'].$thisArr['link'].$settings['page_extension'])) {
+      //if (is_file(LEPTON_PATH.'/pages'.$thisArr['link'].'.php')) {
+      if (is_file(LEPTON_PATH.$settings['pages_directory'].$thisArr['link'].$settings['page_extension'])) {
         $link = $thisArr['link'];
         return true; }
       else {
@@ -434,9 +440,9 @@ class dirlist extends sql_dirlist {
    */
   /*
   function getMediaDirectories() {
-    $dl = $this->searchdir(WB_PATH.MEDIA_DIRECTORY, -1, "DIRS");
+    $dl = $this->searchdir(LEPTON_PATH.MEDIA_DIRECTORY, -1, "DIRS");
     for ($i=0; $i < count($dl); $i++) {
-      $dl[$i] = str_replace(WB_PATH.MEDIA_DIRECTORY.'/','',$dl[$i]);
+      $dl[$i] = str_replace(LEPTON_PATH.MEDIA_DIRECTORY.'/','',$dl[$i]);
       if ($dl[$i]{strlen($dl[$i])-1} == '/') {
         $dl[$i] = substr($dl[$i],0,strlen($dl[$i])-1); }
     }
@@ -444,7 +450,7 @@ class dirlist extends sql_dirlist {
   }
   */
   function getMediaDirectories() {
-	  $path=WB_PATH.MEDIA_DIRECTORY;
+	  $path=LEPTON_PATH.MEDIA_DIRECTORY;
 	  $dl = $this->searchdir($path, -1, "DIRS");
 	  // perhaps windows...
 	  $dl = str_replace("\\", "/", $dl);
@@ -506,7 +512,7 @@ class dirlist extends sql_dirlist {
    *
    */
   function dlgModify() {
-    global $database;
+    global $database, $TEXT;
 
     if ((!$this->sql_getEntry($this->section_id,$this->page_id)) && ($database->is_error())) {
       // SQL Fehler
@@ -525,9 +531,9 @@ class dirlist extends sql_dirlist {
       $parser->add('text_suffix',dl_backend_text_suffix);
       $parser->add('value_suffix',$this->record['suffix']);
 
-      $parser->add('form_action', WB_URL.'/modules/dirlist/save.php');
+      $parser->add('form_action', LEPTON_URL.'/modules/dirlist/save.php');
       $parser->add('btn_submit',dl_backend_btn_submit);
-      $parser->add('btn_abort',dl_backend_btn_abort);
+      $parser->add('btn_abort', $TEXT['CANCEL']);
       $parser->add('abort_location',ADMIN_URL. '/pages/index.php');
       $parser->add('page_id',$this->page_id);
       $parser->add('section_id',$this->section_id);
@@ -582,7 +588,7 @@ class dirlist extends sql_dirlist {
       $parser->add('value_prefix',$this->record['prefix']);
       $parser->add('value_suffix',$this->record['suffix']);
 
-      $parser->parseTemplateFile(WB_PATH.'/modules/dirlist/htt/backend.htt');
+      $parser->parseTemplateFile(LEPTON_PATH.'/modules/dirlist/htt/backend.htt');
       $parser->echoHTML();
     } // else
 
@@ -687,8 +693,8 @@ class dirlist extends sql_dirlist {
       return false; }
     else {
     	// Dateien auslesen
-    	$mediaPath = WB_PATH.MEDIA_DIRECTORY.'/'.$this->record['directory'];
-      $mediaURL = WB_URL.MEDIA_DIRECTORY.'/'.$this->record['directory'];
+    	$mediaPath = LEPTON_PATH.MEDIA_DIRECTORY.'/'.$this->record['directory'];
+      $mediaURL = LEPTON_URL.MEDIA_DIRECTORY.'/'.$this->record['directory'];
       $aFiles = $this->getMediaFiles($mediaPath);
 			$dlArray = array();
       // DirList Array bilden
@@ -761,7 +767,7 @@ class dirlist extends sql_dirlist {
         // das Verzeichnis ist leer
         $parse_item->clear(true);
         $parse_item->add('file',dl_frontend_empty_directory);
-        $parse_item->parseTemplateFile(WB_PATH.'/modules/dirlist/htt/frontend.item.htt');
+        $parse_item->parseTemplateFile(LEPTON_PATH.'/modules/dirlist/htt/frontend.item.htt');
         $items .= $parse_item->getHTML(true);
       }
       else {
@@ -770,7 +776,7 @@ class dirlist extends sql_dirlist {
       	for ($i=0; $i < count($dlArray); $i++) {
       		$parse_item->clear(true);
       		$parse_item->add('icon',sprintf('<img src="%s" alt="%s" border="0" width="16" height="16" />',
-      		                                WB_URL.'/modules/dirlist/img/16x16/'.$mimeType->getIconByType($dlArray[$i]['file']),
+      		                                LEPTON_URL.'/modules/dirlist/img/16x16/'.$mimeType->getIconByType($dlArray[$i]['file']),
       		                                $mimeType->getMimeType($dlArray[$i]['file'])));
       		$parse_item->add('file',sprintf('<a href="%s"%s>%s</a>',
       		                                $mediaURL.'/'.$dlArray[$i]['file'],
@@ -778,13 +784,13 @@ class dirlist extends sql_dirlist {
       		                                $dlArray[$i]['file']));
       		$parse_item->add('size',$this->size_readable($dlArray[$i]['size']));
       		$parse_item->add('date',date(dl_frontend_th_datetime,$dlArray[$i]['date']));
-          $parse_item->parseTemplateFile(WB_PATH.'/modules/dirlist/htt/frontend.item.htt');
+          $parse_item->parseTemplateFile(LEPTON_PATH.'/modules/dirlist/htt/frontend.item.htt');
           $items .= $parse_item->getHTML(true);
       	}
       }
       $parser->add('directory',$items);
       $parser->add('suffix',$this->record['suffix']);
-      $parser->parseTemplateFile(WB_PATH.'/modules/dirlist/htt/frontend.htt');
+      $parser->parseTemplateFile(LEPTON_PATH.'/modules/dirlist/htt/frontend.htt');
       $parser->echoHTML();
     }
     return true;

@@ -37,7 +37,7 @@
 	    </div>
       <div class="dirlist_btn">
 	      <input name="dl_btn_submit" type="submit" value="{btn_submit}">
-        <input name="dl_btn_abort" type="button" value="{btn_abort}" onclick="javascript: window.location = '{abort_location}'; return false;"/>
+        <input name="dl_btn_abort" type="submit" value="{btn_abort}" onclick="javascript: window.location = '{abort_location}'; return false;"/>
       </div>
     </form>
   </dir>
