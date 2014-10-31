@@ -3,8 +3,8 @@
 /**
  *  @module         DirList
  *  @version        see info.php of this module
- *  @authors        Ralf Hertsch (&#x271D;), cms-lab
- * 	@copyright		2007 - 2012 Ralf Hertsch (&#x271D;)
+ *  @authors        Ralf Hertsch (†), cms-lab
+ *  @copyright      2007 - 2012 Ralf Hertsch (†)
  *  @copyright      2013-2014 cms-lab 
  *  @license        MIT License (MIT) http://www.opensource.org/licenses/MIT
  *  @license terms  see info.php of this module

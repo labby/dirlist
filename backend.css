@@ -18,12 +18,11 @@
 	}
 
 .dirlist {
-	padding: 20px;
-  border: 1px solid #000000;
-  color: #000000;
-  background-color: #ffffcc;
-  font-size: 10pt;
-  font-weight: normal;
+    border: 1px solid #999;
+    color: #333;
+    font-size: 12px;
+    font-weight: normal;
+    padding: 20px;
 	}
 .dirlist h1 {
 	text-align: left;
@@ -44,7 +43,7 @@
 .dl_select {
 	padding: 15px 5px 5px 5px;
 	color: #000000;
-  background-color: #ffcc99;
+  background-color: #ccc;
 	}
 .dirlist_btn {
 	clear: both;
