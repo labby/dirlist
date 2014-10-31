@@ -410,28 +410,38 @@ class dirlist extends sql_dirlist {
  * @param INT $d
  * @return ARRAY()
  */
-  function searchdir ($path, $maxdepth=-1, $mode="FULL", $d=0) {
-    if (substr($path, strlen($path)-1) != '/') { $path .= '/' ; }
-    $dirlist = array ();
-    if ($mode != "FILES") { $dirlist[] = $path ; }
-    if (($handle = opendir($path))) {
-      while (false !== ($file = readdir($handle))) {
-        if ($file != '.' && $file != '..' ) {
-          $file = $path . $file ;
-          if (!is_dir($file)) {
-            if ($mode != "DIRS") {
-              $dirlist[] = $file ; } }
-          elseif ($d >=0 && ($d < $maxdepth || $maxdepth < 0)) {
-            $result = $this->searchdir($file . '/', $maxdepth, $mode, $d+1);
-            $dirlist = array_merge($dirlist, $result);  }
-        }
-      } // while
-      closedir($handle);
-    }
-    if ( $d == 0 ) {
-      natcasesort($dirlist); }
-      return ($dirlist) ;
-  }
+	function searchdir ($path, $maxdepth=-1, $mode="FULL", $d=0) {
+		if (substr($path, strlen($path)-1) != '/') {
+			$path .= '/' ;
+		}
+		$dirlist = array ();
+    
+    	if ($mode != "FILES") {
+    		$dirlist[] = $path ;
+    	}
+    
+   		if (($handle = opendir($path))) {
+			while (false !== ($file = readdir($handle))) {
+				if ($file != '.' && $file != '..' ) {
+					$file = $path . $file ;
+          		
+          			if (!is_dir($file)) {
+            			if ($mode != "DIRS") {
+							$dirlist[] = $file ;
+						}
+					}
+					elseif ($d >=0 && ($d < $maxdepth || $maxdepth < 0)) {
+						$result = $this->searchdir($file . '/', $maxdepth, $mode, $d+1);
+						$dirlist = array_merge($dirlist, $result);
+					}
+				}
+      		} // while
+			closedir($handle);
+    	}
+		if ( $d == 0 ) {
+			natcasesort($dirlist); }
+			return ($dirlist) ;
+  	}
 
   /**
    * Alle Verzeichnisse im /MEDIA Pfad auslesen und als ARRAY() zurueckgeben
@@ -449,23 +459,29 @@ class dirlist extends sql_dirlist {
     return $dl;
   }
   */
-  function getMediaDirectories() {
-	  $path=LEPTON_PATH.MEDIA_DIRECTORY;
-	  $dl = $this->searchdir($path, -1, "DIRS");
-	  // perhaps windows...
-	  $dl = str_replace("\\", "/", $dl);
-    for ($i=0; $i < count($dl); $i++) {
-      $dl[$i] = str_replace($path.'/','',$dl[$i]);
-      if ($dl[$i]{strlen($dl[$i])-1} == '/') {
-        $dl[$i] = substr($dl[$i],0,strlen($dl[$i])-1); }
-    }
-    // Nochmals slashes bereinigen
-	  $path=str_replace('\\','/',$path);
-    // Absoluten Pfadanteil l�schen
-	  for($i=0;$i<count($dl);$i++){
-	    $dl[$i]=str_replace($path,'',$dl[$i]); }
-    return $dl;
-  }
+	function getMediaDirectories() {
+		$path=LEPTON_PATH.MEDIA_DIRECTORY;
+		$dl = $this->searchdir($path, -1, "DIRS");
+		die(print_r($dl));
+		// perhaps windows...
+		$dl = str_replace("\\", "/", $dl);
+		for ($i=0; $i < count($dl); $i++) {
+			$dl[$i] = str_replace($path.'/','',$dl[$i]);
+			
+			if ($dl[$i]{strlen($dl[$i])-1} == '/') {
+				$dl[$i] = substr($dl[$i],0,strlen($dl[$i])-1);
+			}
+    	}
+		
+		// Nochmals slashes bereinigen
+		$path=str_replace('\\','/',$path);
+		
+		// Absoluten Pfadanteil löschen
+		for($i=0;$i<count($dl);$i++){
+			$dl[$i]=str_replace($path,'',$dl[$i]);
+		}
+		return $dl;
+ 	}
 
   /**
    * Dateien in dem angegebenen Verzeichnis auslesen und als ARRAY() zurueckgeben.
