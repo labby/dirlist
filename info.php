@@ -40,7 +40,7 @@ else
 $module_directory 	 = 'dirlist';
 $module_name 		 = 'DirList';
 $module_function 	 = 'page';
-$module_version 	 = '0.24';
+$module_version 	 = '0.25';
 $module_platform 	 = '1.x';
 $module_status       = 'Stable';
 $module_author 		 = 'Ralf Hertsch (†), cms-lab';
