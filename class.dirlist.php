@@ -462,7 +462,7 @@ class dirlist extends sql_dirlist {
 	function getMediaDirectories() {
 		$path=LEPTON_PATH.MEDIA_DIRECTORY;
 		$dl = $this->searchdir($path, -1, "DIRS");
-		
+		/*
 		// perhaps windows...
 		$dl = str_replace("\\", "/", $dl);
 		for ($i=0; $i < count($dl); $i++) {
@@ -475,7 +475,7 @@ class dirlist extends sql_dirlist {
 		
 		// Nochmals slashes bereinigen
 		$path=str_replace('\\','/',$path);
-		
+		*/
 		// Absoluten Pfadanteil löschen
 		for($i=0;$i<count($dl);$i++){
 			$dl[$i]=str_replace($path,'',$dl[$i]);
