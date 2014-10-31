@@ -3,8 +3,8 @@
 /**
  *  @module         DirList
  *  @version        see info.php of this module
- *  @authors        Ralf Hertsch (&#x271D;), cms-lab
- * 	@copyright		2007 - 2012 Ralf Hertsch (&#x271D;)
+ *  @authors        Ralf Hertsch (†), cms-lab
+ * 	@copyright		2007 - 2012 Ralf Hertsch (†)
  *  @copyright      2013-2014 cms-lab 
  *  @license        MIT License (MIT) http://www.opensource.org/licenses/MIT
  *  @license terms  see info.php of this module
@@ -43,7 +43,7 @@ $module_function 	 = 'page';
 $module_version 	 = '0.24';
 $module_platform 	 = '1.x';
 $module_status       = 'Stable';
-$module_author 		 = 'Ralf Hertsch (&#x271D;), cms-lab';
+$module_author 		 = 'Ralf Hertsch (†), cms-lab';
 $module_license 	 = 'MIT License (MIT)';
 $module_description  = 'Show files of a selected MEDIA directory with mime-type icon, name, size and date of last change for download.';
 $module_home         = 'http://cms-lab.com';
