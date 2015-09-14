@@ -376,7 +376,7 @@ class dirlist extends sql_dirlist {
           $this->record[$this->dirListArray[$i]] = 0;  }
         break;
       default:
-        $this->record[$this->dirListArray[$i]] = $worker->add_slashes(strip_tags($_REQUEST[$this->dirListArray[$i]]));
+        $this->record[$this->dirListArray[$i]] = addslashes(strip_tags($_REQUEST[$this->dirListArray[$i]]));
       endswitch;
     }
   }
