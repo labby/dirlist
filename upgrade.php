@@ -37,8 +37,6 @@ else
 }
 // end include class.secure.php
 
-// manually include the config.php file (defines the required constants)
-require('../../config.php');
 
 // Modul Informationen
 require_once('info.php');
